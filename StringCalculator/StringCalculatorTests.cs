@@ -63,16 +63,29 @@ namespace StringCalculator
         }
 
         [Test]
+        public void AddNumbers_WithNewLinesAndAnyDelimiterLength()
+        {
+            // Arrange
+            StringCalculator stringCalculator = new StringCalculator();
+
+            // Act
+            var result = stringCalculator.Add("//[***]\n1***2***3");
+
+            // Assert
+            Assert.AreEqual(6, result);
+        }
+
+        [Test]
         public void AddNumbers_WithNewLinesAndMultipleDelimiters()
         {
             // Arrange
             StringCalculator stringCalculator = new StringCalculator();
 
             // Act
-            var result = stringCalculator.Add("//;\n1;2");
+            var result = stringCalculator.Add("//[*][%]\n1*2%3");
 
             // Assert
-            Assert.AreEqual(3, result);
+            Assert.AreEqual(6, result);
         }
     }
 }
