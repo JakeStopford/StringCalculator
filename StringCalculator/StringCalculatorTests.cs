@@ -4,33 +4,29 @@ namespace StringCalculator
 {
     public class Tests
     {
-        [SetUp]
-        public void Setup()
-        {
-
-        }
-
         [Test]
         public void EmptyString_Returns0()
         {
-            // Arrange
-            StringCalculator stringCalculator = new StringCalculator();
-
             // Act
-            var result = stringCalculator.Add("");
+            var result = StringCalculator.Add("");
 
             // Assert
             Assert.AreEqual(0, result);
         }
 
         [Test]
-        public void AddNumbers_WithCommaDelimiter()
+        public void NegatvieNumber_ThrowsException()
         {
-            // Arrange
-            StringCalculator stringCalculator = new StringCalculator();
-
             // Act
-            var result = stringCalculator.Add("1,2,3");
+            var result = StringCalculator.Add("-1,-2");
+
+            // Assert
+        }
+
+        [Test]
+        public void AddNumbers_WithCommaDelimiter()
+        {// Act
+            var result = StringCalculator.Add("1,2,3");
 
             // Assert
             Assert.AreEqual(6, result);
@@ -39,11 +35,8 @@ namespace StringCalculator
         [Test]
         public void AddNumbers_WithNewLinesAndDelimiter()
         {
-            // Arrange
-            StringCalculator stringCalculator = new StringCalculator();
-
             // Act
-            var result = stringCalculator.Add("1\n2,3");
+            var result = StringCalculator.Add("1\n2,3");
 
             // Assert
             Assert.AreEqual(6, result);
@@ -56,7 +49,7 @@ namespace StringCalculator
             StringCalculator stringCalculator = new StringCalculator();
 
             // Act
-            var result = stringCalculator.Add("//;\n1;2");
+            var result = StringCalculator.Add("//;\n1;2;1001");
 
             // Assert
             Assert.AreEqual(3, result);
@@ -65,11 +58,8 @@ namespace StringCalculator
         [Test]
         public void AddNumbers_WithNewLinesAndAnyDelimiterLength()
         {
-            // Arrange
-            StringCalculator stringCalculator = new StringCalculator();
-
             // Act
-            var result = stringCalculator.Add("//[***]\n1***2***3");
+            var result = StringCalculator.Add("//[***]\n1***2***3");
 
             // Assert
             Assert.AreEqual(6, result);
@@ -78,11 +68,8 @@ namespace StringCalculator
         [Test]
         public void AddNumbers_WithNewLinesAndMultipleDelimiters()
         {
-            // Arrange
-            StringCalculator stringCalculator = new StringCalculator();
-
             // Act
-            var result = stringCalculator.Add("//[*][%]\n1*2%3");
+            var result = StringCalculator.Add("//[*][%]\n1*2%3");
 
             // Assert
             Assert.AreEqual(6, result);

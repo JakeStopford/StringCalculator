@@ -1,46 +1,62 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace StringCalculator
 {
     public class StringCalculator
     {
-        public int Add(string numbersCollection)
+        public static int Add(string numbersCollection)
         {
-            List<int> negativeNumbers = new List<int>();
-            var delimiters = new List<char> {',', '\n'};
+            var delimiters = new List<string> {",", "\n"};
+            string[] lines = null;
 
             if (numbersCollection.StartsWith("//"))
             {
-                delimiters.Add(numbersCollection[2]);
+                lines = numbersCollection.Split("\n");
+                string delimiterString = lines[0].Substring(2, lines[0].Length - 2);                
+                delimiters = GetDelimiters(delimiterString);
+            }
+            
+            var numberSplit = lines[1].Split(delimiters.ToArray(), StringSplitOptions.RemoveEmptyEntries);
+
+            var parsedNumbers = numberSplit.Select(x =>
+            {
+                int.TryParse(x, out var number);
+                return number;
+            });
+
+            var negatives = parsedNumbers.Where(x => x < 0);
+
+            if (negatives.Any())
+            {
+                throw new ArgumentException("Negatives not allowed! ", String.Join(", ", negatives.ToArray()));
             }
 
-            var charArray = numbersCollection.Split(delimiters.ToArray());
+            return parsedNumbers.Where(x => x <= 1000).Sum();
+        }
 
-            int sum = 0;
-            foreach (string strNumber in charArray)
+        private static List<string> GetDelimiters(string delimiterString)
+        {
+            List<string> delimiters = new List<string>();
+            string newDelimiter = "";
+
+            foreach (char c in delimiterString)
             {
-                int number;
-                if (int.TryParse(strNumber, out number) && number <= 1000)
+                switch (c)
                 {
-                    if (number < 0)
-                    {
-                        negativeNumbers.Add(number);
-                    }
-                    else
-                    { 
-                        sum += number;
-                    }
+                    case '[':
+                        newDelimiter = "";
+                        break;
+                    case ']':
+                        delimiters.Add(newDelimiter);
+                        break;
+                    default:
+                        newDelimiter = newDelimiter + c;
+                        break;
                 }
             }
-
-            if (negativeNumbers.Count > 0)
-            {
-                throw new Exception("Negative numbers!");
-                // print out all negatives
-            }
-
-            return sum;
+            return delimiters;
         }
     }
 }
