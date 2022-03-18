@@ -9,16 +9,28 @@ namespace StringCalculator
         public static int Add(string numbersCollection)
         {
             var delimiters = new List<string> {",", "\n"};
-            string[] lines = null;
+            var numberSplit = Array.Empty<string>();
+            string[] lines = Array.Empty<string>();
 
             if (numbersCollection.StartsWith("//"))
             {
                 lines = numbersCollection.Split("\n");
-                string delimiterString = lines[0].Substring(2, lines[0].Length - 2);                
-                delimiters = GetDelimiters(delimiterString);
+                string delimiterString = lines[0].Substring(2, lines[0].Length - 2);
+                if (numbersCollection.Contains("["))
+                {
+                    delimiters = GetDelimiters(delimiterString);
+                }
+                else
+                {
+                    delimiters.Add(delimiterString);
+                }
+
+                numberSplit = lines[1].Split(delimiters.ToArray(), StringSplitOptions.RemoveEmptyEntries);
             }
-            
-            var numberSplit = lines[1].Split(delimiters.ToArray(), StringSplitOptions.RemoveEmptyEntries);
+            else
+            {
+                numberSplit = numbersCollection.Split(delimiters.ToArray(), StringSplitOptions.RemoveEmptyEntries);
+            }
 
             var parsedNumbers = numberSplit.Select(x =>
             {
