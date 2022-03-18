@@ -10,7 +10,7 @@ namespace StringCalculator
         {
             var delimiters = new List<string> {",", "\n"};
             var numberSplit = Array.Empty<string>();
-            string[] lines = Array.Empty<string>();
+            var lines = Array.Empty<string>();
 
             if (numbersCollection.StartsWith("//"))
             {

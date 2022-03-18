@@ -1,3 +1,4 @@
+using System;
 using NUnit.Framework;
 
 namespace StringCalculator
@@ -17,10 +18,8 @@ namespace StringCalculator
         [Test]
         public void NegatvieNumber_ThrowsException()
         {
-            // Act
-            var result = StringCalculator.Add("-1,-2");
-
             // Assert
+            Assert.Throws<ArgumentException>(() => StringCalculator.Add("-1,-2"));
         }
 
         [Test]
